@@ -94,8 +94,6 @@ render () {
   let searchValue = this.state.searchText;
   let path = `${searchValue}`;
 
-
-
   return (
       <div className="App">
         <Header
@@ -111,13 +109,12 @@ render () {
                       ? <p>Loading...</p>
                       : <Route exact path="/:search"  render={() => <Gallery data={this.state.images}/>} />
                     }
-            <Route component={FileNotFound}/>
-            </Switch>
+                    <Route component={FileNotFound}/>
+          </Switch>
 
       </div>
   );
 }
 }
-
 
 export default withRouter(App);
