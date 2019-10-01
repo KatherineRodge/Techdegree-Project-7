@@ -6,6 +6,7 @@ import Gallery from './gallery.js';
 import FileNotFound from './filenotfound.js'
 import apiKey from './config.js';
 let query;
+let loadingResult;
 //solution for history.push connection via external browswerRouter/withRouter
 //https://dev.to/kozakrisz/react-router---how-to-pass-history-object-to-a-component-3l0j
 
@@ -90,9 +91,19 @@ onNavClick = (e) => {
     );
 }
 
+loadingFunction = (loadingResult) => {
+  if (this.state.loading === true) {
+    return loadingResult = <Route exact path = "/:search" render = {() => <p>Loading...</p>} />
+  } else {
+    return loadingResult = <Route exact path="/:search"  render={() => <Gallery data={this.state.images}/>} />
+  }
+}
+
 render () {
   let searchValue = this.state.searchText;
   let path = `${searchValue}`;
+  let resultsDisplay = this.loadingFunction(loadingResult);
+
 
   return (
       <div className="App">
@@ -104,12 +115,8 @@ render () {
 
           <Switch>
               <Redirect exact path="/" to={"/" + path} render={() => <Gallery data={this.state.images}/>}/>
-                    {
-                      (this.state.loading)
-                      ? <p>Loading...</p>
-                      : <Route exact path="/:search"  render={() => <Gallery data={this.state.images}/>} />
-                    }
-                    <Route component={FileNotFound}/>
+              {resultsDisplay}
+              <Route component={FileNotFound}/>
           </Switch>
 
       </div>
